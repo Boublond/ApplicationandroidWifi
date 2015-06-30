@@ -28,10 +28,12 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         System.out.println();
-
+        int a = 0;
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            a=1;
             return true;
+
         }
 
         return super.onOptionsItemSelected(item);
