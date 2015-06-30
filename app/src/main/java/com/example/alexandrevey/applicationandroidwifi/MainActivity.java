@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
         int a = 0;
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            a=1;
+            a=2;
             return true;
 
         }
