@@ -22,24 +22,13 @@
         android:text="@string/refresh"
         android:onClick="onClickRefresh"
         />
-    <LinearLayout
+
+    <ListView
+        android:id="@+id/wifi_list_wiew"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@id/refresh">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rank"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/score"/>
 
-    </LinearLayout>
+    </ListView>
 
 </RelativeLayout>

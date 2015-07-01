@@ -14,9 +14,9 @@ import java.util.List;
  * Created by alexandrevey on 30/06/15.
  */
 public class WifiAdapter extends BaseAdapter {
-    private List<WifiItem> listeWifiItem;
+    private List<WifiItemView> listeWifiItem;
     private LayoutInflater layoutInflater;
-    public WifiAdapter (Context context, List<WifiItem> objects){
+    public WifiAdapter (Context context, List<WifiItemView> objects){
         listeWifiItem = objects;
         layoutInflater = LayoutInflater.from(context);
     }
@@ -52,14 +52,14 @@ public class WifiAdapter extends BaseAdapter {
             viewHolder = (ViewWifiHolder)convertView.getTag();
         }
 
-        viewHolder.tvApName.setText(listeWifiItem.get(position).getAPName());
-        viewHolder.tvAdresseMAc.setText(listeWifiItem.get(position).getAdresseMac());
+        viewHolder.tvApName.setText(listeWifiItem.get(position).getSSID());
+        viewHolder.tvAdresseMAc.setText(listeWifiItem.get(position).getBSSID());
 
 
         //Truc stylé qui devrait changer la couleur du Wifi en fonction de la puissance de son signal !
-        if(listeWifiItem.get(position).getForceSignal() <= -80) {
+        if(listeWifiItem.get(position).getLevel() <= -80) {
             viewHolder.ForceSignal.setBackgroundColor(Color.GREEN);
-        } else if(listeWifiItem.get(position).getForceSignal() <= -50) {
+        } else if(listeWifiItem.get(position).getLevel() <= -50) {
             viewHolder.ForceSignal.setBackgroundColor(Color.YELLOW);
         } else {
             viewHolder.ForceSignal.setBackgroundColor(Color.RED);
