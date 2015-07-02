@@ -10,12 +10,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by alexandrevey on 01/07/15.
  */
-public class WifiBroadcastReceiver extends BroadcastReceiver {
+public class WifiBroadcastReceiver extends BroadcastReceiver{
     String TAG = "WifiBroadcastReceiver";
 
 
@@ -44,15 +46,20 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                 for (ScanResult scanResult : listeScan) {
                     if (scanResult.SSID.indexOf(""/* Mettre la chaine de caractère que l'on veut retrouver dans les réseaux wifi*/)!=-1){
                     WifiItem item = new WifiItem();
-                    item.setRank(0);
                     item.setBSSID(scanResult.BSSID);
                     item.setSSID(scanResult.SSID);
                     item.setLevel(scanResult.level);
 
                     listeWifiItem.add(item);
                     }
-                }
 
+                }
+                Collections.sort(listeWifiItem,Collections.reverseOrder());
+                int i =1;
+                for (WifiItem wifiItem : listeWifiItem) {
+                        wifiItem.setRank(i);
+                        i=i+1;
+                }
                 ((MainActivity) context).updateWifiListView(listeWifiItem);
 
 
@@ -63,6 +70,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
         }
 
     }
+
 
 
 }

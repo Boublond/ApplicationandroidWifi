@@ -8,7 +8,7 @@ import android.widget.TextView;
 /**
  * Created by alexandrevey on 30/06/15.
  */
-public class WifiItem {
+public class WifiItem implements Comparable{
     private int rank;
     private String SSID;  // WiFi Network name
     private String BSSID; // MAC Address
@@ -54,5 +54,22 @@ public class WifiItem {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+
+
+
+
+    @Override
+    public int compareTo(Object another) {
+        int nombre1 = ((WifiItem) another).getLevel();
+        int nombre2 = this.getLevel();
+        if (nombre2 > nombre1) {
+            return 1;
+        }else if(nombre2 < nombre1){
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }
