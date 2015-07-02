@@ -2,6 +2,7 @@ package com.example.alexandrevey.applicationandroidwifi;
 
 import android.content.Context;
 import android.content.IntentFilter;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,9 +10,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -20,30 +24,48 @@ public class MainActivity extends ActionBarActivity {
     private ListView wifiListView;
     private WifiManager wifiManager;
     private WifiAdapter wifiAdapter;
+    private Button refreshButton;
 
     private ArrayList<WifiItem> wifiItemList;
-
-
-
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         setContentView(R.layout.activity_main);
-        Log.i(TAG, "Layout set");
-        wifiItemList = new ArrayList<WifiItem>();
         wifiListView = (ListView)findViewById(R.id.wifi_list_wiew);
-        //updateWifiListView();
-        WifiBroadcastReceiver broadcastReceiver = new WifiBroadcastReceiver();
+        refreshButton = (Button)findViewById(R.id.refresh);
 
-        // On attache le receiver au scan result
+        wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+        wifiItemList = new ArrayList<>();
+        WifiAdapter wifiAdapter = new WifiAdapter(this,wifiItemList);
+
+        WifiBroadcastReceiver broadcastReceiver = new WifiBroadcastReceiver();
         registerReceiver(broadcastReceiver, new IntentFilter(
                 WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        WifiAdapter wifiAdapter = new WifiAdapter(this,wifiItemList);
+
         wifiListView.setAdapter(wifiAdapter);
+//        wifiListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String networkSSID = ((WifiItem)parent.getItemAtPosition(position)).getSSID();
+//
+//                WifiConfiguration conf = new WifiConfiguration();
+//                conf.SSID = "\"" + networkSSID + "\"";
+//                conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+//                wifiManager.addNetwork(conf);
+//                List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
+//                for( WifiConfiguration i : list ) {
+//                    if(i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
+//                        wifiManager.disconnect();
+//                        wifiManager.enableNetwork(i.networkId, true);
+//                        wifiManager.reconnect();
+//                        break;
+//                    }
+//                }
+//            }
+//        });
     }
     
     @Override
@@ -86,13 +108,18 @@ public class MainActivity extends ActionBarActivity {
         WifiAdapter wifiAdapter = new WifiAdapter(this,liste);
         wifiListView.setAdapter(wifiAdapter);
 
+        refreshButton.setText(getResources().getString(R.string.refresh));
+        refreshButton.setClickable(true);
     }
 
     public void onClickRefresh(View v){
-
-        wifiManager.startScan();
+        if (wifiManager.startScan()){
+            refreshButton.setText(getResources().getString(R.string.scanning));
+            refreshButton.setClickable(false);
+        }
 
     }
+
 
 
     public WifiManager getWifiManager() {
