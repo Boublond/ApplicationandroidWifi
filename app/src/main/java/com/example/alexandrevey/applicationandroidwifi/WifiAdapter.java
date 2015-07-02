@@ -56,6 +56,8 @@ public class WifiAdapter extends BaseAdapter {
             viewHolder.tvLevel = (TextView) convertView.findViewById(R.id.level);
             convertView.setTag(viewHolder); // ???
         } else {
+            Log.i(TAG,"convertView is not null.");
+
             viewHolder = (ViewWifiHolder)convertView.getTag();  // ???
         }
 

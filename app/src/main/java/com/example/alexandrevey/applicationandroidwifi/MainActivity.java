@@ -1,5 +1,6 @@
 package com.example.alexandrevey.applicationandroidwifi;
 
+import android.content.Context;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.ActionBarActivity;
@@ -17,18 +18,23 @@ public class MainActivity extends ActionBarActivity {
     String TAG = "MainActivity";
 
     private ListView wifiListView;
+    private WifiManager wifiManager;
+    private WifiAdapter wifiAdapter;
+
+    private ArrayList<WifiItem> wifiItemList;
 
 
 
 
 
 
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         setContentView(R.layout.activity_main);
         Log.i(TAG, "Layout set");
+        wifiItemList = new ArrayList<WifiItem>();
         wifiListView = (ListView)findViewById(R.id.wifi_list_wiew);
         //updateWifiListView();
         WifiBroadcastReceiver broadcastReceiver = new WifiBroadcastReceiver();
@@ -36,6 +42,8 @@ public class MainActivity extends ActionBarActivity {
         // On attache le receiver au scan result
         registerReceiver(broadcastReceiver, new IntentFilter(
                 WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        WifiAdapter wifiAdapter = new WifiAdapter(this,wifiItemList);
+        wifiListView.setAdapter(wifiAdapter);
     }
     
     @Override
@@ -74,15 +82,48 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    private void updateWifiListView(){
-        WifiAdapter wifiAdapter = new WifiAdapter(this,getFakeWifiList());
+    public void updateWifiListView(ArrayList<WifiItem> liste){
+        WifiAdapter wifiAdapter = new WifiAdapter(this,liste);
         wifiListView.setAdapter(wifiAdapter);
 
     }
 
     public void onClickRefresh(View v){
-        updateWifiListView();
+
+        wifiManager.startScan();
+
     }
 
 
+    public WifiManager getWifiManager() {
+        return wifiManager;
+    }
+
+    public void setWifiManager(WifiManager wifiManager) {
+        this.wifiManager = wifiManager;
+    }
+
+    public WifiAdapter getWifiAdapter() {
+        return wifiAdapter;
+    }
+
+    public void setWifiAdapter(WifiAdapter wifiAdapter) {
+        this.wifiAdapter = wifiAdapter;
+    }
+    public void setwifiListView(ListView wifiListView){
+        this.wifiListView = wifiListView;
+    }
+
+    public ListView getwifiListView(){
+        return wifiListView;
+    }
+
+    public ArrayList<WifiItem> getWifiItemList() {
+        return wifiItemList;
+    }
+
+    public void setWifiItemList(ArrayList<WifiItem> wifiItemList) {
+        this.wifiItemList = wifiItemList;
+    }
 }
+
