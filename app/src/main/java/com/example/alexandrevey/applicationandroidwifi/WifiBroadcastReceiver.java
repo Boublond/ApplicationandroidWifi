@@ -53,10 +53,8 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                     listeWifiItem.add(item);
                 }
 
-                Log.i(TAG, "Notification du changement debut");
                 ((MainActivity) context).updateWifiListView(listeWifiItem);
-                //wifiAdapter.notifyDataSetChanged();
-                Log.i(TAG, "Notification du changement fin");
+
 
             } else {
                 Toast.makeText(context,"You must enabled your wifi ", Toast.LENGTH_SHORT);

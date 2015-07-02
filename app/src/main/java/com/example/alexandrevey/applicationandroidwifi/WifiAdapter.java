@@ -67,13 +67,12 @@ public class WifiAdapter extends BaseAdapter {
         viewHolder.tvLevel.setText(Integer.toString(listWifiItem.get(position).getLevel()));
 
 
-        //Truc stylé qui devrait changer la couleur du Wifi en fonction de la puissance de son signal !
         if(listWifiItem.get(position).getLevel() <= -80) {
-            viewHolder.tvLevel.setBackgroundColor(Color.GREEN);
+            viewHolder.tvLevel.setBackgroundColor(Color.RED);
         } else if(listWifiItem.get(position).getLevel() <= -50) {
             viewHolder.tvLevel.setBackgroundColor(Color.YELLOW);
         } else {
-            viewHolder.tvLevel.setBackgroundColor(Color.RED);
+            viewHolder.tvLevel.setBackgroundColor(Color.GREEN);
         }
 
         return convertView;
