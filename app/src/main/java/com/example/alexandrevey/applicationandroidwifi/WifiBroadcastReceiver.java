@@ -33,9 +33,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
         wifiAdapter = ((MainActivity) context).getWifiAdapter();
         listeWifiItem = ((MainActivity) context).getWifiItemList();
         Log.i(TAG,"getWifiAdapter OK.");
-        //listeWifiItem = new ArrayList<>();
         wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-
 
 
 
@@ -44,6 +42,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                 List<ScanResult> listeScan = wifiManager.getScanResults();
                 listeWifiItem.clear();
                 for (ScanResult scanResult : listeScan) {
+                    if (scanResult.SSID.indexOf(""/* Mettre la chaine de caractère que l'on veut retrouver dans les réseaux wifi*/)!=-1){
                     WifiItem item = new WifiItem();
                     item.setRank(0);
                     item.setBSSID(scanResult.BSSID);
@@ -51,13 +50,14 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                     item.setLevel(scanResult.level);
 
                     listeWifiItem.add(item);
+                    }
                 }
 
                 ((MainActivity) context).updateWifiListView(listeWifiItem);
 
 
             } else {
-                Toast.makeText(context,"You must enabled your wifi ", Toast.LENGTH_SHORT);
+                Toast.makeText((MainActivity) context, "You must enabled your wifi ", Toast.LENGTH_SHORT);
             }
 
         }
