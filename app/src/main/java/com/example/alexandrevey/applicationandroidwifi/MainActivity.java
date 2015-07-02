@@ -1,5 +1,7 @@
 package com.example.alexandrevey.applicationandroidwifi;
 
+import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,12 @@ public class MainActivity extends ActionBarActivity {
 
     private ListView wifiListView;
 
+
+
+
+
+
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +31,11 @@ public class MainActivity extends ActionBarActivity {
         Log.i(TAG, "Layout set");
         wifiListView = (ListView)findViewById(R.id.wifi_list_wiew);
         //updateWifiListView();
+        WifiBroadcastReceiver broadcastReceiver = new WifiBroadcastReceiver();
+
+        // On attache le receiver au scan result
+        registerReceiver(broadcastReceiver, new IntentFilter(
+                WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
     }
     
     @Override

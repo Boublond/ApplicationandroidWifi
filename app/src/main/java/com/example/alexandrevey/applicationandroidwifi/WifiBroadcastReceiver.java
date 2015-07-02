@@ -37,7 +37,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
 
                     listeWifiItem.add(item);
                 }
-                //TODO faire une notification pour rafraichir la vue
+                wifiAdapter.notifyDataSetChanged();
             } else {
                 Toast.makeText(context,"You must enabled your wifi ", Toast.LENGTH_SHORT);
             }
