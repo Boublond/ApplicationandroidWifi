@@ -2,6 +2,7 @@ package com.example.alexandrevey.applicationandroidwifi;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +15,22 @@ import java.util.List;
  * Created by alexandrevey on 30/06/15.
  */
 public class WifiAdapter extends BaseAdapter {
-    private List<WifiItemView> listeWifiItem;
+    String TAG = "WifiAdapter";
+    private List<WifiItem> listWifiItem;
     private LayoutInflater layoutInflater;
-    public WifiAdapter (Context context, List<WifiItemView> objects){
-        listeWifiItem = objects;
+
+    public WifiAdapter (Context context, List<WifiItem> objects){
+        listWifiItem = objects;
         layoutInflater = LayoutInflater.from(context);
+        Log.i(TAG,"WifiAdapter built.");
     }
 
     public int getCount() {
-        return listeWifiItem.size();
+        return listWifiItem.size();
     }
 
     public Object getItem(int position){
-        return listeWifiItem.get(position);
+        return listWifiItem.get(position);
     }
 
     public long getItemId(int position){
@@ -34,35 +38,40 @@ public class WifiAdapter extends BaseAdapter {
     }
 
     private class ViewWifiHolder{
-        TextView tvApName;
-        TextView tvAdresseMAc;
-        TextView ForceSignal;
+        TextView tvRank;
+        TextView tvSSID;
+        TextView tvBSSID;
+        TextView tvLevel;
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
         ViewWifiHolder viewHolder;
         if(convertView== null){
+            Log.i(TAG,"convertView is null.");
             viewHolder = new ViewWifiHolder();
-            convertView = layoutInflater.inflate(R.layout.abc_list_menu_item_layout, null);//TODO modifier le type de la liste ?
-
-            viewHolder.tvApName= (TextView) convertView.findViewById(R.id.withText); //TODO modifier les types de R.ID
-            viewHolder.tvAdresseMAc= (TextView) convertView.findViewById(R.id.withText);
-            viewHolder.ForceSignal= (TextView) convertView.findViewById(R.id.withText);
+            convertView = layoutInflater.inflate(R.layout.wifi_item, null);
+            viewHolder.tvRank = (TextView) convertView.findViewById(R.id.rank);
+            viewHolder.tvSSID = (TextView) convertView.findViewById(R.id.ssid);
+            viewHolder.tvBSSID = (TextView) convertView.findViewById(R.id.bssid);
+            viewHolder.tvLevel = (TextView) convertView.findViewById(R.id.level);
+            convertView.setTag(viewHolder); // ???
         } else {
-            viewHolder = (ViewWifiHolder)convertView.getTag();
+            viewHolder = (ViewWifiHolder)convertView.getTag();  // ???
         }
 
-        viewHolder.tvApName.setText(listeWifiItem.get(position).getSSID());
-        viewHolder.tvAdresseMAc.setText(listeWifiItem.get(position).getBSSID());
+        viewHolder.tvRank.setText(Integer.toString(listWifiItem.get(position).getRank()));
+        viewHolder.tvSSID.setText(listWifiItem.get(position).getSSID());
+        viewHolder.tvBSSID.setText(listWifiItem.get(position).getBSSID());
+        viewHolder.tvLevel.setText(Integer.toString(listWifiItem.get(position).getLevel()));
 
 
         //Truc stylé qui devrait changer la couleur du Wifi en fonction de la puissance de son signal !
-        if(listeWifiItem.get(position).getLevel() <= -80) {
-            viewHolder.ForceSignal.setBackgroundColor(Color.GREEN);
-        } else if(listeWifiItem.get(position).getLevel() <= -50) {
-            viewHolder.ForceSignal.setBackgroundColor(Color.YELLOW);
+        if(listWifiItem.get(position).getLevel() <= -80) {
+            viewHolder.tvLevel.setBackgroundColor(Color.GREEN);
+        } else if(listWifiItem.get(position).getLevel() <= -50) {
+            viewHolder.tvLevel.setBackgroundColor(Color.YELLOW);
         } else {
-            viewHolder.ForceSignal.setBackgroundColor(Color.RED);
+            viewHolder.tvLevel.setBackgroundColor(Color.RED);
         }
 
         return convertView;

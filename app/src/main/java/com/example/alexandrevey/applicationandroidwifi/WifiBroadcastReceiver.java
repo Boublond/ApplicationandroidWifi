@@ -31,9 +31,9 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                 listeWifiItem.clear();
                 for (ScanResult scanResult : listeScan) {
                     WifiItem item = new WifiItem();
-                    item.setAdresseMac(scanResult.BSSID);
-                    item.setAPName(scanResult.SSID);
-                    item.setForceSignal(scanResult.level);
+                    item.setBSSID(scanResult.BSSID);
+                    item.setSSID(scanResult.SSID);
+                    item.setLevel(scanResult.level);
 
                     listeWifiItem.add(item);
                 }

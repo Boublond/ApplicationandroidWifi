@@ -1,25 +1,18 @@
 package com.example.alexandrevey.applicationandroidwifi;
 
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 
 public class MainActivity extends ActionBarActivity {
+    String TAG = "MainActivity";
 
     private ListView wifiListView;
 
@@ -27,8 +20,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.i(TAG, "Layout set");
         wifiListView = (ListView)findViewById(R.id.wifi_list_wiew);
+        //updateWifiListView();
     }
     
     @Override
@@ -54,24 +48,28 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private ArrayList<WifiItemView> getFakeWifiList(){
-        ArrayList<WifiItemView> wifiList = new ArrayList<WifiItemView>() ;
-        WifiItemView o2wifi1 = new WifiItemView(this,1,"O2 Hotspot 1","B2:B3:C7:D8",-50);
-        WifiItemView o2wifi2 = new WifiItemView(this,2,"O2 Hotspot 2","F2:B3:C7:D8",-20);
-        WifiItemView o2wifi3 = new WifiItemView(this,3,"O2 Hotspot 3","A2:B3:C7:D8",-10);
+    private ArrayList<WifiItem> getFakeWifiList(){
+        Log.i(TAG,"Has entered getFakeWifiList");
+        ArrayList<WifiItem> wifiList = new ArrayList<WifiItem>() ;
+        WifiItem o2wifi1 = new WifiItem(4,"O2 Hotspot 1","B2:B3:C7:D8",-50);
+        WifiItem o2wifi2 = new WifiItem(2,"O2 Hotspot 2","F2:B3:C7:D8",-20);
+        WifiItem o2wifi3 = new WifiItem(3,"O2 Hotspot 3","A2:B3:C7:D8",-10);
         wifiList.add(o2wifi1);
         wifiList.add(o2wifi2);
         wifiList.add(o2wifi3);
         return wifiList;
     }
 
-    // Probleme de compatibilite, le ListAdapter ne peut gerer que des TextView
+
     private void updateWifiListView(){
-        //ArrayAdapter<WifiItemView> arrayAdapter =
-                //new ArrayAdapter<WifiItemView>(this,R.id.wifi_list_wiew,R.id.,getFakeWifiList());
-        //wifiListView.setAdapter(arrayAdapter);
+        WifiAdapter wifiAdapter = new WifiAdapter(this,getFakeWifiList());
+        wifiListView.setAdapter(wifiAdapter);
+
     }
 
+    public void onClickRefresh(View v){
+        updateWifiListView();
+    }
 
 
 }
