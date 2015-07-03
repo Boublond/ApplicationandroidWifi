@@ -45,27 +45,27 @@ public class MainActivity extends ActionBarActivity {
                 WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
         wifiListView.setAdapter(wifiAdapter);
-//        wifiListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String networkSSID = ((WifiItem)parent.getItemAtPosition(position)).getSSID();
-//
-//                WifiConfiguration conf = new WifiConfiguration();
-//                conf.SSID = "\"" + networkSSID + "\"";
-//                conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-//                wifiManager.addNetwork(conf);
-//                List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
-//                for( WifiConfiguration i : list ) {
-//                    if(i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
-//                        wifiManager.disconnect();
-//                        wifiManager.enableNetwork(i.networkId, true);
-//                        wifiManager.reconnect();
-//                        break;
-//                    }
-//                }
-//            }
-//        });
+        wifiListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String networkSSID = ((WifiItem)parent.getItemAtPosition(position)).getSSID();
+
+                WifiConfiguration conf = new WifiConfiguration();
+                conf.SSID = "\"" + networkSSID + "\"";
+                conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+                wifiManager.addNetwork(conf);
+                List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
+                for( WifiConfiguration i : list ) {
+                    if(i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
+                        wifiManager.disconnect();
+                        wifiManager.enableNetwork(i.networkId, true);
+                        wifiManager.reconnect();
+                        break;
+                    }
+                }
+            }
+        });
     }
     
     @Override
@@ -91,17 +91,17 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private ArrayList<WifiItem> getFakeWifiList(){
-        Log.i(TAG,"Has entered getFakeWifiList");
-        ArrayList<WifiItem> wifiList = new ArrayList<WifiItem>() ;
-        WifiItem o2wifi1 = new WifiItem(4,"O2 Hotspot 1","B2:B3:C7:D8",-50);
-        WifiItem o2wifi2 = new WifiItem(2,"O2 Hotspot 2","F2:B3:C7:D8",-20);
-        WifiItem o2wifi3 = new WifiItem(3,"O2 Hotspot 3","A2:B3:C7:D8",-10);
-        wifiList.add(o2wifi1);
-        wifiList.add(o2wifi2);
-        wifiList.add(o2wifi3);
-        return wifiList;
-    }
+//    private ArrayList<WifiItem> getFakeWifiList(){
+//        Log.i(TAG,"Has entered getFakeWifiList");
+//        ArrayList<WifiItem> wifiList = new ArrayList<WifiItem>() ;
+//        WifiItem o2wifi1 = new WifiItem(4,"O2 Hotspot 1","B2:B3:C7:D8",-50);
+//        WifiItem o2wifi2 = new WifiItem(2,"O2 Hotspot 2","F2:B3:C7:D8",-20);
+//        WifiItem o2wifi3 = new WifiItem(3,"O2 Hotspot 3","A2:B3:C7:D8",-10);
+//        wifiList.add(o2wifi1);
+//        wifiList.add(o2wifi2);
+//        wifiList.add(o2wifi3);
+//        return wifiList;
+//    }
 
 
     public void updateWifiListView(ArrayList<WifiItem> liste){
@@ -110,6 +110,10 @@ public class MainActivity extends ActionBarActivity {
 
         refreshButton.setText(getResources().getString(R.string.refresh));
         refreshButton.setClickable(true);
+
+        for (WifiItem item : liste){
+            System.out.println(item.getCapabilities());
+        }
     }
 
     public void onClickRefresh(View v){

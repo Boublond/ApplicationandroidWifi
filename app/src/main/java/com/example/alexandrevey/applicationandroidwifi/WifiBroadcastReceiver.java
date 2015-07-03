@@ -45,11 +45,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver{
                 listeWifiItem.clear();
                 for (ScanResult scanResult : listeScan) {
                     if (scanResult.SSID.indexOf(""/* Mettre la chaine de caractère que l'on veut retrouver dans les réseaux wifi*/)!=-1){
-                    WifiItem item = new WifiItem();
-                    item.setBSSID(scanResult.BSSID);
-                    item.setSSID(scanResult.SSID);
-                    item.setLevel(scanResult.level);
-
+                    WifiItem item = new WifiItem(scanResult);
                     listeWifiItem.add(item);
                     }
 
