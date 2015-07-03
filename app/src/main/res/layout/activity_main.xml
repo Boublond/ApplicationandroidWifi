@@ -23,12 +23,13 @@
         android:onClick="onClickRefresh"
         />
 
-    <ListView
+    <GridView
         android:id="@+id/wifi_list_wiew"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:numColumns="2"
         android:layout_below="@id/refresh">
 
-    </ListView>
+    </GridView>
 
 </RelativeLayout>

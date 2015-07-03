@@ -18,8 +18,10 @@ public class WifiAdapter extends BaseAdapter {
     String TAG = "WifiAdapter";
     private List<WifiItem> listWifiItem;
     private LayoutInflater layoutInflater;
+    private Context context;
 
     public WifiAdapter (Context context, List<WifiItem> objects){
+        this.context=context;
         listWifiItem = objects;
         layoutInflater = LayoutInflater.from(context);
         Log.i(TAG,"WifiAdapter built.");
@@ -64,12 +66,20 @@ public class WifiAdapter extends BaseAdapter {
         viewHolder.tvLevel.setText(Integer.toString(listWifiItem.get(position).getLevel()));
 
 
+//        if(listWifiItem.get(position).getLevel() <= -80) {
+//            viewHolder.tvLevel.setBackgroundColor(Color.RED);
+//        } else if(listWifiItem.get(position).getLevel() <= -50) {
+//            viewHolder.tvLevel.setBackgroundColor(Color.YELLOW);
+//        } else {
+//            viewHolder.tvLevel.setBackgroundColor(Color.GREEN);
+//        }
+
         if(listWifiItem.get(position).getLevel() <= -80) {
-            viewHolder.tvLevel.setBackgroundColor(Color.RED);
+            convertView.findViewById(R.id.wifi_item_relative_layout).setBackground(context.getResources().getDrawable(R.drawable.red_box));
         } else if(listWifiItem.get(position).getLevel() <= -50) {
-            viewHolder.tvLevel.setBackgroundColor(Color.YELLOW);
+            convertView.findViewById(R.id.wifi_item_relative_layout).setBackground(context.getResources().getDrawable(R.drawable.orange_box));
         } else {
-            viewHolder.tvLevel.setBackgroundColor(Color.GREEN);
+            convertView.findViewById(R.id.wifi_item_relative_layout).setBackground(context.getResources().getDrawable(R.drawable.green_box));
         }
 
         return convertView;

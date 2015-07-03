@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
     String TAG = "MainActivity";
 
-    private ListView wifiListView;
+    private GridView wifiListView;
     private WifiManager wifiManager;
     private WifiAdapter wifiAdapter;
     private Button refreshButton;
@@ -33,7 +34,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        wifiListView = (ListView)findViewById(R.id.wifi_list_wiew);
+        wifiListView = (GridView)findViewById(R.id.wifi_list_wiew);
         refreshButton = (Button)findViewById(R.id.refresh);
 
         wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
@@ -142,10 +143,10 @@ public class MainActivity extends ActionBarActivity {
         this.wifiAdapter = wifiAdapter;
     }
     public void setwifiListView(ListView wifiListView){
-        this.wifiListView = wifiListView;
+        //this.wifiListView = wifiListView;
     }
 
-    public ListView getwifiListView(){
+    public GridView getwifiListView(){
         return wifiListView;
     }
 
