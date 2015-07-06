@@ -5,34 +5,38 @@
     android:id="@+id/wifi_item_relative_layout"
     android:background="@drawable/gray_box">
 
-
     <TextView
-        android:id="@+id/rank"
+        android:id="@+id/score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:textStyle="bold"
+        android:textSize="@dimen/abc_text_size_medium_material"/>
+
+    <ImageView
+        android:id="@+id/network_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/score"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/ssid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/rank"/>
+        android:layout_below="@id/network_logo"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/bssid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/ssid"
-        android:layout_below="@id/ssid"/>
+        android:layout_below="@id/ssid"
+        android:layout_centerHorizontal="true"/>
 
-    <TextView
-        android:id="@+id/level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"/>
+
 
 
 

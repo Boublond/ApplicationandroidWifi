@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -40,10 +41,10 @@ public class WifiAdapter extends BaseAdapter {
     }
 
     private class ViewWifiHolder{
-        TextView tvRank;
         TextView tvSSID;
         TextView tvBSSID;
         TextView tvLevel;
+        ImageView ivNetworkLogo;
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
@@ -51,19 +52,19 @@ public class WifiAdapter extends BaseAdapter {
         if(convertView== null){
             viewHolder = new ViewWifiHolder();
             convertView = layoutInflater.inflate(R.layout.wifi_item, null);
-            viewHolder.tvRank = (TextView) convertView.findViewById(R.id.rank);
             viewHolder.tvSSID = (TextView) convertView.findViewById(R.id.ssid);
             viewHolder.tvBSSID = (TextView) convertView.findViewById(R.id.bssid);
-            viewHolder.tvLevel = (TextView) convertView.findViewById(R.id.level);
+            viewHolder.tvLevel = (TextView) convertView.findViewById(R.id.score);
+            viewHolder.ivNetworkLogo = (ImageView) convertView.findViewById(R.id.network_logo);
             convertView.setTag(viewHolder); // ???
         } else {
             viewHolder = (ViewWifiHolder)convertView.getTag();  // ???
         }
 
-        viewHolder.tvRank.setText(Integer.toString(listWifiItem.get(position).getRank()));
         viewHolder.tvSSID.setText(listWifiItem.get(position).getSSID());
         viewHolder.tvBSSID.setText(listWifiItem.get(position).getBSSID());
         viewHolder.tvLevel.setText(Integer.toString(listWifiItem.get(position).getLevel()));
+        viewHolder.ivNetworkLogo.setImageDrawable(context.getResources().getDrawable(R.drawable.bullseye));
 
 
 //        if(listWifiItem.get(position).getLevel() <= -80) {

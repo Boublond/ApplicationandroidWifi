@@ -6,30 +6,40 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
     android:id="@+id/main_relative_layout">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/optiwifi_logo"
-        android:contentDescription="@string/logo_description"
-        />
-    <Button
-        android:id="@+id/refresh"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/logo"
-        android:text="@string/refresh"
-        android:onClick="onClickRefresh"
-        />
 
-    <GridView
-        android:id="@+id/wifi_list_wiew"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="2"
-        android:layout_below="@id/refresh">
 
-    </GridView>
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/optiwifi_logo"
+                android:contentDescription="@string/logo_description"
+                />
+            <Space
+                android:id="@+id/space"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_below="@id/logo"/>
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/space"
+                >
+
+                <GridView
+                    android:id="@+id/wifi_list_wiew"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="5dp"
+                    android:horizontalSpacing="5dp"
+                    android:layout_below="@id/logo">
+
+                </GridView>
+            </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </RelativeLayout>

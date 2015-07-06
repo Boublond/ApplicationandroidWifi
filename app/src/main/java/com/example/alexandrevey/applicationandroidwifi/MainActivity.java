@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
     private GridView wifiListView;
     private WifiManager wifiManager;
     private WifiAdapter wifiAdapter;
-    private Button refreshButton;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private ArrayList<WifiItem> wifiItemList;
 
@@ -35,7 +36,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         wifiListView = (GridView)findViewById(R.id.wifi_list_wiew);
-        refreshButton = (Button)findViewById(R.id.refresh);
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout);
 
         wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         wifiItemList = new ArrayList<>();
@@ -50,15 +51,15 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String networkSSID = ((WifiItem)parent.getItemAtPosition(position)).getSSID();
+                String networkSSID = ((WifiItem) parent.getItemAtPosition(position)).getSSID();
 
                 WifiConfiguration conf = new WifiConfiguration();
                 conf.SSID = "\"" + networkSSID + "\"";
                 conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
                 wifiManager.addNetwork(conf);
                 List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
-                for( WifiConfiguration i : list ) {
-                    if(i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
+                for (WifiConfiguration i : list) {
+                    if (i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
                         wifiManager.disconnect();
                         wifiManager.enableNetwork(i.networkId, true);
                         wifiManager.reconnect();
@@ -67,6 +68,26 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
+
+        SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (wifiManager.startScan()) {
+                    swipeRefreshLayout.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(true);
+                        }
+                    });
+                }
+            }
+        };
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.main_purple);
+        swipeRefreshLayout.setColorSchemeResources(R.color.white);
+
+        onRefreshListener.onRefresh();
+
     }
     
     @Override
@@ -108,23 +129,12 @@ public class MainActivity extends ActionBarActivity {
     public void updateWifiListView(ArrayList<WifiItem> liste){
         WifiAdapter wifiAdapter = new WifiAdapter(this,liste);
         wifiListView.setAdapter(wifiAdapter);
-
-        refreshButton.setText(getResources().getString(R.string.refresh));
-        refreshButton.setClickable(true);
+        swipeRefreshLayout.setRefreshing(false);
 
         for (WifiItem item : liste){
             System.out.println(item.getCapabilities());
         }
     }
-
-    public void onClickRefresh(View v){
-        if (wifiManager.startScan()){
-            refreshButton.setText(getResources().getString(R.string.scanning));
-            refreshButton.setClickable(false);
-        }
-
-    }
-
 
 
     public WifiManager getWifiManager() {

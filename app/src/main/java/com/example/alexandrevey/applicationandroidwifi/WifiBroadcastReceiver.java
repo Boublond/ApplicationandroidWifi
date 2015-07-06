@@ -60,7 +60,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver{
 
 
             } else {
-                Toast.makeText((MainActivity) context, "You must enabled your wifi ", Toast.LENGTH_SHORT);
+                Toast.makeText((MainActivity) context, "You must enable your wifi ", Toast.LENGTH_SHORT);
             }
 
         }
