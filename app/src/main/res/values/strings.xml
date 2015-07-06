@@ -1,11 +1,7 @@
 <resources>
-    <string name="app_name">ApplicationandroidWifi</string>
+    <string name="app_name">OptiWi-Fi</string>
     <string name="action_settings">action_settings</string>
 
     <string name="logo_description">OptiWi-fi Logo</string>
-    <string name="refresh">refresh</string>
-    <string name="scanning">scanning...</string>
-    <string name="rank">Rank</string>
-    <string name="name">Name</string>
-    <string name="score">Score</string>
+
 </resources>
