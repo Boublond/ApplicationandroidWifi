@@ -27,7 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/network_logo"
         android:layout_centerHorizontal="true"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:maxLines="1"/>
 
     <TextView
         android:id="@+id/bssid"

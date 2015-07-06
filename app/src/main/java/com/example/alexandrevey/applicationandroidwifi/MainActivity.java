@@ -86,8 +86,8 @@ public class MainActivity extends ActionBarActivity {
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.main_purple);
         swipeRefreshLayout.setColorSchemeResources(R.color.white);
 
+        // Scans and displays networks when activity is started
         onRefreshListener.onRefresh();
-
     }
     
     @Override
@@ -112,18 +112,6 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-//    private ArrayList<WifiItem> getFakeWifiList(){
-//        Log.i(TAG,"Has entered getFakeWifiList");
-//        ArrayList<WifiItem> wifiList = new ArrayList<WifiItem>() ;
-//        WifiItem o2wifi1 = new WifiItem(4,"O2 Hotspot 1","B2:B3:C7:D8",-50);
-//        WifiItem o2wifi2 = new WifiItem(2,"O2 Hotspot 2","F2:B3:C7:D8",-20);
-//        WifiItem o2wifi3 = new WifiItem(3,"O2 Hotspot 3","A2:B3:C7:D8",-10);
-//        wifiList.add(o2wifi1);
-//        wifiList.add(o2wifi2);
-//        wifiList.add(o2wifi3);
-//        return wifiList;
-//    }
 
 
     public void updateWifiListView(ArrayList<WifiItem> liste){
