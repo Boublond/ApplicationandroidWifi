@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">OptiWi-Fi</string>
-    <string name="action_settings">action_settings</string>
+    <string name="map">Map</string>
+    <string name="networks">Networks</string>
 
     <string name="logo_description">OptiWi-fi Logo</string>
+    <string name="select_network">Please connect to secured Wifi network manually.</string>
 
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

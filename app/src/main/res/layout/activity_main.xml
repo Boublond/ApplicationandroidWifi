@@ -7,28 +7,13 @@
     android:id="@+id/main_relative_layout">
 
 
-            <Space
-                android:id="@+id/space"
-                android:layout_width="match_parent"
-                android:layout_height="8dp"/>
+    <LinearLayout
+        android:id="@+id/fragment_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/space"
-                >
-
-                <GridView
-                    android:id="@+id/wifi_list_wiew"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:numColumns="auto_fit"
-                    android:verticalSpacing="5dp"
-                    android:horizontalSpacing="5dp">
-
-                </GridView>
-            </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>

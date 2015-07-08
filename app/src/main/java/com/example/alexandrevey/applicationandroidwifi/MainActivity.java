@@ -1,33 +1,34 @@
 package com.example.alexandrevey.applicationandroidwifi;
 
+import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements NetworkGridFragment.OnFragmentInteractionListener {
     String TAG = "MainActivity";
 
-    private GridView wifiListView;
     private WifiManager wifiManager;
-    private WifiAdapter wifiAdapter;
-    private SwipeRefreshLayout swipeRefreshLayout;
-
     private ArrayList<WifiItem> wifiItemList;
 
 
@@ -35,65 +36,66 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        wifiListView = (GridView)findViewById(R.id.wifi_list_wiew);
-        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout);
 
         wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         wifiItemList = new ArrayList<>();
-        WifiAdapter wifiAdapter = new WifiAdapter(this,wifiItemList);
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setNavigationMode(android.support.v7.app.ActionBar.NAVIGATION_MODE_TABS);
+        }
+        //setTitle("WoodenSideProject");
 
-        WifiBroadcastReceiver broadcastReceiver = new WifiBroadcastReceiver();
-        registerReceiver(broadcastReceiver, new IntentFilter(
-                WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        android.support.v7.app.ActionBar.Tab tab1 = actionBar.newTab().setText(R.string.networks);
+        //android.support.v7.app.ActionBar.Tab tab2 = actionBar.newTab().setText(R.string.map);
 
-        wifiListView.setAdapter(wifiAdapter);
-        wifiListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        NetworkGridFragment networkGridFragment = new NetworkGridFragment();
+        NetworkGridFragment networkGridFragment2 = new NetworkGridFragment();
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String networkSSID = ((WifiItem) parent.getItemAtPosition(position)).getSSID();
+        tab1.setTabListener(new MyTabListener(networkGridFragment));
+        //tab2.setTabListener(new MyTabListener(networkGridFragment2));
 
-                WifiConfiguration conf = new WifiConfiguration();
-                conf.SSID = "\"" + networkSSID + "\"";
-                conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-                wifiManager.addNetwork(conf);
-                List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
-                for (WifiConfiguration i : list) {
-                    if (i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
-                        wifiManager.disconnect();
-                        wifiManager.enableNetwork(i.networkId, true);
-                        wifiManager.reconnect();
-                        break;
-                    }
-                }
-            }
-        });
-
-        SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (wifiManager.startScan()) {
-                    swipeRefreshLayout.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            swipeRefreshLayout.setRefreshing(true);
-                        }
-                    });
-                }
-            }
-        };
-        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.main_purple);
-        swipeRefreshLayout.setColorSchemeResources(R.color.white);
-
-        // Scans and displays networks when activity is started
-        onRefreshListener.onRefresh();
+        actionBar.addTab(tab1);
+        //actionBar.addTab(tab2);
     }
+
+    public ArrayList<WifiItem> getWifiItemList() {
+        return wifiItemList;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    class MyTabListener implements android.support.v7.app.ActionBar.TabListener {
+        public android.support.v4.app.Fragment fragment;
+
+        public MyTabListener(android.support.v4.app.Fragment fragment) {
+            this.fragment = fragment;
+        }
+
+
+        @Override
+        public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+            ft.replace(R.id.fragment_holder, fragment,NetworkGridFragment.TAG);
+        }
+
+        @Override
+        public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+            ft.replace(R.id.fragment_holder, fragment,NetworkGridFragment.TAG);
+        }
+
+        @Override
+        public void onTabReselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+            //do what you want when tab is reselected, I do nothing
+        }
+    }
+
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -104,25 +106,17 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-
-            return true;
-
-        }
+//        if (id == R.id.to_map) {
+//
+//            return true;
+//
+//        }
 
         return super.onOptionsItemSelected(item);
     }
 
 
-    public void updateWifiListView(ArrayList<WifiItem> liste){
-        WifiAdapter wifiAdapter = new WifiAdapter(this,liste);
-        wifiListView.setAdapter(wifiAdapter);
-        swipeRefreshLayout.setRefreshing(false);
 
-        for (WifiItem item : liste){
-            System.out.println(item.getCapabilities());
-        }
-    }
 
 
     public WifiManager getWifiManager() {
@@ -133,27 +127,10 @@ public class MainActivity extends ActionBarActivity {
         this.wifiManager = wifiManager;
     }
 
-    public WifiAdapter getWifiAdapter() {
-        return wifiAdapter;
-    }
 
-    public void setWifiAdapter(WifiAdapter wifiAdapter) {
-        this.wifiAdapter = wifiAdapter;
-    }
-    public void setwifiListView(ListView wifiListView){
-        //this.wifiListView = wifiListView;
-    }
 
-    public GridView getwifiListView(){
-        return wifiListView;
-    }
 
-    public ArrayList<WifiItem> getWifiItemList() {
-        return wifiItemList;
-    }
 
-    public void setWifiItemList(ArrayList<WifiItem> wifiItemList) {
-        this.wifiItemList = wifiItemList;
-    }
+
 }
 

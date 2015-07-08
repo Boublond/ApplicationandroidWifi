@@ -10,6 +10,10 @@ import android.widget.TextView;
  * Created by alexandrevey on 30/06/15.
  */
 public class WifiItem implements Comparable{
+    public final static String WEP = "WEP";
+    public final static String WPA = "WPA";
+    public final static String OPEN = "OPEN";
+
     private ScanResult scanResult;
     private int rank;
     private String SSID;  // WiFi Network name
@@ -80,6 +84,17 @@ public class WifiItem implements Comparable{
 
     public void setFrequency(int frequency) {
         this.frequency = frequency;
+    }
+
+
+    public String getSecurity(){
+        if (capabilities.toLowerCase().contains(WEP.toLowerCase()))
+        {return WEP ;}
+
+        else if (capabilities.toLowerCase().contains(WPA.toLowerCase()))
+        {return WPA;}
+
+        return OPEN;
     }
 
 
